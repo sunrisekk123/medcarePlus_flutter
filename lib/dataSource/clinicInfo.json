@@ -1,0 +1,74 @@
+[
+  {
+    "ID": "CID000001",
+    "Name": "Cheng Hing Chung Clinic",
+    "PhoneNumber": "24131919",
+    "Area": "NT",
+    "District": "Tsuen Wan",
+    "Address": "Shop H2, G/F, Carson Mansion, 46-58 Lo Tak Court, Tsuen Wan, New Territories",
+    "ClinicHours": {
+      "Mon": "09:00 - 13:00 / 16:00 - 20:00",
+      "Tue": "09:00 - 13:00 / 16:00 - 20:00",
+      "Wed": "09:00 - 13:00 / 16:00 - 20:00",
+      "Thu": "09:00 - 13:00 / 16:00 - 20:00",
+      "Fri": "09:00 - 13:00 / 16:00 - 20:00",
+      "Sat": "09:00 - 13:00 / 15:00 - 18:00",
+      "Sun": "N"
+    },
+    "ImagePath": ""
+  },
+  {
+    "ID": "CID000002",
+    "Name": "Cheung Ying Man Clinic",
+    "PhoneNumber": "24111177",
+    "Area": "NT",
+    "District": "Tsuen Wan",
+    "Address": "Shop 28, UG/F, Comm Arcade II, Tsuen Wan Centre, 92 Tsuen King Circuit, Tsuen Wan, NT",
+    "ClinicHours": {
+      "Mon": "09:00 - 13:00 / 16:00 - 20:00",
+      "Tue": "09:00 - 13:00 / 16:00 - 20:00",
+      "Wed": "09:00 - 13:00 / 16:00 - 20:00",
+      "Thu": "09:00 - 13:00 / 16:00 - 20:00",
+      "Fri": "09:00 - 13:00 / 16:00 - 20:00",
+      "Sat": "09:00 - 13:00 / 15:00 - 18:00",
+      "Sun": "N"
+    },
+    "ImagePath": ""
+  },
+  {
+    "ID": "CID000003",
+    "Name": "Cheung Yuet Ying Christina Clinic (Lei Muk Shue Estate)",
+    "PhoneNumber": "24263668",
+    "Area": "NT",
+    "District": "Tsuen Wan",
+    "Address": "Shop 10, G/F, Block 2, Lei Muk Shue Estate, 389 Wo Yi Hop Road, Tsuen Wan, New Territories",
+    "ClinicHours": {
+      "Mon": "08:30 - 13:00 / 16:00 - 22:00",
+      "Tue": "08:30 - 13:00 / 16:00 - 22:00",
+      "Wed": "08:30 - 13:00 / 16:00 - 22:00",
+      "Thu": "08:30 - 13:00 / 16:00 - 22:00",
+      "Fri": "08:30 - 13:00 / 16:00 - 22:00",
+      "Sat": "08:30 - 13:00",
+      "Sun": "N"
+    },
+    "ImagePath": ""
+  },
+  {
+    "ID": "CID000004",
+    "Name": "Choi Yuen Chung Clinic",
+    "PhoneNumber": "24935392",
+    "Area": "NT",
+    "District": "Tsuen Wan",
+    "Address": "Shop S-14, G/F, Tsuen Wan Centre, 92 Tsuen King Circuit, Tsuen Wan, New Territories",
+    "ClinicHours": {
+      "Mon": "09:00 - 13:00 / 16:00 - 20:30",
+      "Tue": "09:00 - 13:00 / 16:00 - 20:30",
+      "Wed": "09:00 - 13:00 / 16:00 - 20:30",
+      "Thu": "09:00 - 13:00 / 16:00 - 20:30",
+      "Fri": "09:00 - 13:00 / 16:00 - 20:30",
+      "Sat": "09:00 - 13:00 / 16:00 - 20:30",
+      "Sun": "N"
+    },
+    "ImagePath": ""
+  }
+]

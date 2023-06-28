@@ -1,0 +1,47 @@
+[
+  {
+    "ID": "DID000001",
+    "ClinicID": "CID000001",
+    "Name": "Dr. Cheng Hing Chung",
+    "Services": ["General Practice"],
+    "Qualifications": "MBBS (HK) 1957"
+  },
+  {
+    "ID": "DID000002",
+    "ClinicID": "CID000004",
+    "Name": "Dr. Choi Yuen Chung",
+    "Services": ["General Practice"],
+    "Qualifications": "LMCHK 1981"
+  },
+  {
+    "ID": "DID000003",
+    "ClinicID": "CID000003",
+    "Name": "Dr. Cheung Yuet Ying Christina",
+    "Services": [
+      "General Practice",
+      "Gynaecology examination",
+      "Paps Smear",
+      "Ultrasound",
+      "X ray",
+      "Blood",
+      "ECS",
+      "Other Laboratory Investigation",
+      "Cervical Polyp excision"
+    ],
+    "Qualifications": "MBBS (HK) 1974"
+  },
+  {
+    "ID": "DID000004",
+    "ClinicID": "CID000002",
+    "Name": "Dr. Cheung Ying Man",
+    "Services": [
+      "General Practice"
+    ],
+    "Qualifications": ["MBBS (HK) 1981",
+    "DFM (CUHK) 2000",
+    "FRACGP 2001",
+    "FHKCFP 2001",
+    "PDipComPsychMed"
+    ]
+  }
+]
