@@ -1,28 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/style/app_style.dart';
+import 'package:fyp/views/registerClinic.dart';
 import 'package:fyp/views/services/loginService.dart';
-
-class RegisterPage extends StatelessWidget {
-  static const String routeName = '/home';
-  const RegisterPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'MedCare Plus',
-      theme: ThemeData(
-        primarySwatch: colorCustom,
-      ),
-      home: const RegisterPageDetails(title: 'MedCare Plus'),
-    );
-  }
-}
+import 'package:pinput/pinput.dart';
+import 'package:fyp/views/common/component.dart';
 
 class RegisterPageDetails extends StatefulWidget {
-  const RegisterPageDetails({Key? key, this.restorationId, required this.title})
-      : super(key: key);
-  final String title;
+  static const String routeName = '/register';
+  const RegisterPageDetails({Key? key, this.restorationId}) : super(key: key);
   final String? restorationId;
 
   @override
@@ -44,6 +30,7 @@ class _RegisterPageDetailsState extends State<RegisterPageDetails>
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _birthDateController = TextEditingController();
+  final _pinController = TextEditingController();
 
   @override
   String? get restorationId => widget.restorationId;
@@ -60,10 +47,7 @@ class _RegisterPageDetailsState extends State<RegisterPageDetails>
     },
   );
 
-  static Route<DateTime> _datePickerRoute(
-    BuildContext context,
-    Object? arguments,
-  ) {
+  static Route<DateTime> _datePickerRoute(BuildContext context, Object? arguments) {
     return DialogRoute<DateTime>(
       context: context,
       builder: (BuildContext context) {
@@ -117,6 +101,7 @@ class _RegisterPageDetailsState extends State<RegisterPageDetails>
     _hkidNoController.dispose();
     _passwordController.dispose();
     _birthDateController.dispose();
+    _pinController.dispose();
   }
 
   void registerMember() {
@@ -129,7 +114,8 @@ class _RegisterPageDetailsState extends State<RegisterPageDetails>
         lname: _lastNameController.text,
         hkidNo: _hkidNoController.text,
         phoneNo: _phoneNoController.text,
-        birthDate: _birthDateController.text
+        birthDate: _birthDateController.text,
+        pin: _pinController.text.toString()
     );
   }
 
@@ -149,14 +135,18 @@ class _RegisterPageDetailsState extends State<RegisterPageDetails>
 
     return Scaffold(
         appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: const Text(
-            "Register an account",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 17,
-                color: Color(0xFF303030)),
+          title:
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children:[
+              const Text(
+                "Register an account",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
+                    color: Color(0xFF303030)),
+              )
+            ]
           ),
           leading: IconButton(
             icon: const Icon(Icons.clear_rounded, color: Color(0xFF303030)),
@@ -173,8 +163,36 @@ class _RegisterPageDetailsState extends State<RegisterPageDetails>
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                child: OutlinedButton(
+                                    child:Row(
+                                      children: [
+                                        const Text('Apply for clinic account '),
+                                        Icon(Icons.arrow_circle_right_rounded)
+                                      ],
+                                    ),
+                                    style: OutlinedButton.styleFrom(
+                                      primary: Styles.primaryColor,
+                                      textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                      side: const BorderSide(
+                                        width: 5.0,
+                                        color: Colors.transparent,
+                                        style: BorderStyle.solid,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, RegisterClinicArea.routeName);
+                                    }
+                                ),
+                              ),
+                            ],
+                          ),
                           const Padding(
-                              padding: EdgeInsets.fromLTRB(20, 10, 20, 2),
+                              padding: EdgeInsets.fromLTRB(20, 0, 20, 2),
                               child: Text(
                                 "Please fill in your personal information",
                                 style: TextStyle(
@@ -419,7 +437,7 @@ class _RegisterPageDetailsState extends State<RegisterPageDetails>
                                                   ),
                                                   recognizer: TapGestureRecognizer()
                                                     ..onTap = () => Navigator.of(context).push(MaterialPageRoute(
-                                                            builder: (context) => const RegisterPage()))),
+                                                            builder: (context) => const RegisterPageDetails()))),
                                               const TextSpan(
                                                 text: " and ",
                                                 style: TextStyle(
@@ -432,7 +450,7 @@ class _RegisterPageDetailsState extends State<RegisterPageDetails>
                                                     color: Color(0xFFE68453),
                                                   ),
                                                   recognizer: TapGestureRecognizer()
-                                                    ..onTap = () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RegisterPage()))),
+                                                    ..onTap = () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RegisterPageDetails()))),
                                             ],
                                           ),
                                     ))
@@ -444,13 +462,7 @@ class _RegisterPageDetailsState extends State<RegisterPageDetails>
                                   child: ElevatedButton(
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                              content: Text('Processing Data')),
-                                        );
-                                        //TODO: change route
-                                        registerMember();
+                                        _registerEnterPinWindow();
                                       }
                                     },
                                     child: const Text('Submit'),
@@ -458,6 +470,82 @@ class _RegisterPageDetailsState extends State<RegisterPageDetails>
                                 )
                               ])),
                         ])))));
+  }
+
+  final defaultPinTheme = PinTheme(
+    width: 56,
+    height: 56,
+    textStyle: TextStyle(fontSize: 20, color: Color.fromRGBO(30, 60, 87, 1), fontWeight: FontWeight.w600),
+    decoration: BoxDecoration(
+      border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
+      borderRadius: BorderRadius.circular(20),
+    ),
+  );
+
+  Future<void> _registerEnterPinWindow() async {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Align(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AlertDialog(
+                      scrollable: true,
+                      content: Column(children: <Widget>[
+                        const Padding(
+                            padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                            child: CircleAvatar(
+                              radius: 50,
+                              backgroundColor: Color(0xFFF5F8FF),
+                              child: Icon(Icons.check_rounded, size: 50.0),
+                            )),
+                        Padding(
+                            padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                            child: Pinput(
+                              keyboardType: TextInputType.number,
+                              length: 6,
+                              defaultPinTheme: defaultPinTheme,
+                              validator: (s) {
+                                final check = RegExp(r"^[0-9]*$");
+                                return s != null && s.length == 6 && check.hasMatch(s) ? null : 'Pin is incorrect';
+                              },
+                              enableSuggestions: false,
+                              controller: _pinController,
+                              pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                              showCursor: true,
+                              onCompleted: (pin) => print(pin),
+                            )),
+                        Padding(
+                            padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: Text(
+                                "Please set a 6 digit PIN for electronic health record",
+                                textAlign: TextAlign.center,
+                                style: Styles.headLineStyle6)),
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: Row(children: <Widget>[
+                              Expanded(
+                                child: ElevatedButton(
+                                  child: Text('Set PIN',
+                                      style: Styles.buttonTextStyle1),
+                                  onPressed: () {
+                                    final check = RegExp(r"^[0-9]*$");
+                                    if(_pinController.text.length==6 && check.hasMatch(_pinController.text)){
+                                      registerMember();
+                                    }else{
+                                      showSnackBar(context, "Please set a 6 digit PIN for electronic health record");
+                                    }
+                                  },
+                                ),
+                              )
+                            ]))
+                      ]))
+                ],
+              ));
+        });
   }
 
   Map<String, int> hkidCharacter = {
@@ -595,11 +683,12 @@ class _RegisterPageDetailsState extends State<RegisterPageDetails>
 
   String? phoneNumberValidator(v) {
     String? temp;
+    final check = RegExp(r"^[0-9]*$");
     if (v!.trim().isNotEmpty) {
-      if (v!.trim().length != 8) {
-        temp = "Invalid phone number format";
-      } else {
+      if (v!.trim().length == 8 && check.hasMatch(v)) {
         temp = null;
+      } else {
+        temp = "Invalid phone number format";
       }
     } else {
       temp = "Phone number cannot be empty";

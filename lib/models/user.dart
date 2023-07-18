@@ -11,6 +11,8 @@ class User {
   final String phoneNo;
   final String birthDate;
   final String address;
+  final String pin;
+  final String key;
   final String token;
 
 
@@ -25,6 +27,8 @@ class User {
     required this.phoneNo,
     required this.birthDate,
     required this.address,
+    required this.pin,
+    required this.key,
     required this.token
   });
 
@@ -40,6 +44,8 @@ class User {
       'phoneNo': phoneNo,
       'birthDate': birthDate,
       'address': address,
+      'pin': pin,
+      'key': key,
       'token': token
     };
   }
@@ -56,6 +62,8 @@ class User {
       phoneNo: map['phoneNo'] ?? '',
       birthDate: map['birthDate'] ?? '',
       address: map['address'] ?? '',
+      pin: map['pin'] ?? '',
+      key: map['key'] ?? '',
       token: map['token'] ?? '',
     );
   }
@@ -75,6 +83,8 @@ class User {
     String? phoneNo,
     String? birthDate,
     String? address,
+    String? pin,
+    String? key,
     String? token
   }) {
     return User(
@@ -88,6 +98,8 @@ class User {
         phoneNo: phoneNo ?? this.phoneNo,
         birthDate: birthDate ?? this.birthDate,
         address: address ?? this.address,
+        pin: pin ?? this.pin,
+        key: key ?? this.key,
         token: token ?? this.token
     );
   }

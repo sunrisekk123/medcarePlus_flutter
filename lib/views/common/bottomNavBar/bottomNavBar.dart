@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fyp/style/app_style.dart';
+import 'package:fyp/views/basePage.dart';
+
+import '../../member/healthRecordOverview.dart';
 
 class BottomNavBar extends StatelessWidget {
 
@@ -31,13 +34,18 @@ class BottomNavBar extends StatelessWidget {
             IconButton(
               tooltip: 'Home',
               icon: const Icon(Icons.home),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(context, BasePage.routeName, (Route<dynamic> route) => false);
+              },
             ),
             const Spacer(flex: 3),
+
             IconButton(
               tooltip: 'Search',
               icon: const Icon(Icons.search),
-              onPressed: () {},
+              onPressed: () {
+
+              },
             ),
             const Spacer(flex: 1),
           ],
@@ -53,7 +61,9 @@ class CustomFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pushNamed(context, HealthRecordOverviewUserArea.routeName);
+      },
       tooltip: 'Medical Record',
       child: const Icon(Icons.medical_information_rounded),
     );

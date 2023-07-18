@@ -1,0 +1,50 @@
+[
+  {
+    "_id": "DR58f78eafc00e",
+    "CLINIC_ID": "Cab82c98e56e4",
+    "NAME":"Cheng Hing Chung",
+    "SERVICES": "[\"General Practice\"]",
+    "QUALIFICATIONS": "[\"MBBS (HK) 1957\"]",
+    "IMAGE_PATH": ""
+  },
+  {
+    "_id": "DRa257c4443a54",
+    "CLINIC_ID": "Ccd62f09c1a32",
+    "NAME":"Cheung Ying Man",
+    "SERVICES": "[\"General Practice\"]",
+    "QUALIFICATIONS": "[\"MBBS (HK) 1981\",\"DFM (CUHK) 2000\",\"FRACGP 2001\",\"FHKCFP 2001\",\"PDipComPsychMed\"]",
+    "IMAGE_PATH": ""
+  },
+  {
+    "_id": "DR3f8b7b1f9730",
+    "CLINIC_ID": "Cf4978fd23658",
+    "NAME":"Cheung Yuet Ying Christina",
+    "SERVICES": "[\"General Practice\"]",
+    "QUALIFICATIONS": "[\"MBBS (HK) 1974\"]",
+    "IMAGE_PATH": ""
+  },
+  {
+    "_id": "DRb489b6d83ec6",
+    "CLINIC_ID": "C623e929b3114",
+    "NAME":"Choi Yuen Chung",
+    "SERVICES": "[\"General Practice\"]",
+    "QUALIFICATIONS": "[\"LMCHK 1981\"]",
+    "IMAGE_PATH": ""
+  },
+  {
+    "_id": "DRc6f5f4694d97",
+    "CLINIC_ID": "C02db1d5402bd",
+    "NAME":"Chow King Tung",
+    "SERVICES": "[\"General Practice\"]",
+    "QUALIFICATIONS": "[\"LMCHK 1981\"]",
+    "IMAGE_PATH": ""
+  },
+  {
+    "_id": "DRa8786121d954",
+    "CLINIC_ID": "C3b662fe6d9d6",
+    "NAME":"Chung Ming Lit",
+    "SERVICES": "[\"General Practice\"]",
+    "QUALIFICATIONS": "[\"MBChB (SHEFFIELD) 1964\"]",
+    "IMAGE_PATH": ""
+  }
+]

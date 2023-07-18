@@ -10,36 +10,21 @@ class Styles {
   static Color buttonTextColor = const Color(0xFFffffff);
   static Color bgColor = const Color(0x00000000);
   static Color bgColor2 = const Color(0xFFffffff);
-  static TextStyle textStyle =
-      TextStyle(fontSize: 16, color: textColor, fontWeight: FontWeight.w500);
-  static TextStyle headLineStyle1 =
-      TextStyle(fontSize: 22, color: textColor, fontWeight: FontWeight.bold);
-  static TextStyle headLineStyle2 =
-      TextStyle(fontSize: 21, color: textColor, fontWeight: FontWeight.bold);
-  static TextStyle headLineStyle3 =
-      TextStyle(fontSize: 17, color: textColor, fontWeight: FontWeight.w500);
-  static TextStyle headLineStyle4 =
-      TextStyle(fontSize: 15, color: textColor, fontWeight: FontWeight.w500);
-  static TextStyle headLineStyle5 = TextStyle(
-      fontSize: 14, color: Colors.grey.shade500, fontWeight: FontWeight.w500);
-  static TextStyle headLineStyle6 = TextStyle(
-      fontSize: 12, color: Color(0xFFA1A8B0), fontWeight: FontWeight.w500);
-  static TextStyle appBarStyle1 = TextStyle(
-      fontSize: 17, color: appBarTextColor, fontWeight: FontWeight.bold);
-  static TextStyle buttonTextStyle1 = TextStyle(
-      fontSize: 15, color: buttonTextColor, fontWeight: FontWeight.w500);
-  static TextStyle boxTextStyle1 =
-      TextStyle(fontSize: 12, color: textColor, fontWeight: FontWeight.w500);
-  static TextStyle boxTextStyle2 = TextStyle(
-      fontSize: 10, color: Color(0xFF494a49), fontWeight: FontWeight.w500);
-  static TextStyle cardDetailsTextStyleTitle =
-      TextStyle(fontSize: 14, color: textColor, fontWeight: FontWeight.w500);
-  static TextStyle cardDetailsTextStyleSubtitle1 =
-      TextStyle(fontSize: 12, color: textColor, fontWeight: FontWeight.w500);
-  static TextStyle cardDetailsTextStyleSubtitle2 =
-      TextStyle(fontSize: 12, color: textColor, fontWeight: FontWeight.w400);
-  static TextStyle cardDetailsTextStyleLocation =
-      TextStyle(fontSize: 14, color: textColor, fontWeight: FontWeight.w500);
+  static TextStyle textStyle = TextStyle(fontSize: 16, color: textColor, fontWeight: FontWeight.w500);
+  static TextStyle headLineStyle1 = TextStyle(fontSize: 22, color: textColor, fontWeight: FontWeight.bold);
+  static TextStyle headLineStyle2 = TextStyle(fontSize: 21, color: textColor, fontWeight: FontWeight.bold);
+  static TextStyle headLineStyle3 = TextStyle(fontSize: 17, color: textColor, fontWeight: FontWeight.w500);
+  static TextStyle headLineStyle4 = TextStyle(fontSize: 15, color: textColor, fontWeight: FontWeight.w500);
+  static TextStyle headLineStyle5 = TextStyle(fontSize: 14, color: Colors.grey.shade500, fontWeight: FontWeight.w500);
+  static TextStyle headLineStyle6 = TextStyle(fontSize: 12, color: Color(0xFFA1A8B0), fontWeight: FontWeight.w500);
+  static TextStyle appBarStyle1 = TextStyle(fontSize: 17, color: appBarTextColor, fontWeight: FontWeight.bold);
+  static TextStyle buttonTextStyle1 = TextStyle(fontSize: 15, color: buttonTextColor, fontWeight: FontWeight.w500);
+  static TextStyle boxTextStyle1 = TextStyle(fontSize: 12, color: textColor, fontWeight: FontWeight.w500);
+  static TextStyle boxTextStyle2 = TextStyle(fontSize: 10, color: Color(0xFF494a49), fontWeight: FontWeight.w500);
+  static TextStyle cardDetailsTextStyleTitle = TextStyle(fontSize: 14, color: textColor, fontWeight: FontWeight.w500);
+  static TextStyle cardDetailsTextStyleSubtitle1 = TextStyle(fontSize: 12, color: textColor, fontWeight: FontWeight.w500);
+  static TextStyle cardDetailsTextStyleSubtitle2 = TextStyle(fontSize: 12, color: textColor, fontWeight: FontWeight.w400);
+  static TextStyle cardDetailsTextStyleLocation = TextStyle(fontSize: 14, color: textColor, fontWeight: FontWeight.w500);
 }
 
 Map<int, Color> color = {

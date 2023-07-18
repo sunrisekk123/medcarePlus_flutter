@@ -2,29 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:fyp/style/app_style.dart';
 import 'package:gap/gap.dart';
 
-class ForgotPasswordPage extends StatelessWidget {
-  const ForgotPasswordPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'MedCare Plus',
-      theme: ThemeData(
-        primarySwatch: colorCustom,
-      ),
-      home: const ForgotPasswordPageDetails(title: 'MedCare Plus'),
-    );
-  }
-}
-
 class ForgotPasswordPageDetails extends StatefulWidget {
-  const ForgotPasswordPageDetails({Key? key, required this.title})
-      : super(key: key);
-  final String title;
+  static const String routeName = '/forget_password';
+  const ForgotPasswordPageDetails({Key? key}) : super(key: key);
 
   @override
-  State<ForgotPasswordPageDetails> createState() =>
-      _ForgotPasswordPageDetailsState();
+  State<ForgotPasswordPageDetails> createState() => _ForgotPasswordPageDetailsState();
 }
 
 class _ForgotPasswordPageDetailsState extends State<ForgotPasswordPageDetails> {
@@ -34,8 +17,6 @@ class _ForgotPasswordPageDetailsState extends State<ForgotPasswordPageDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
           title: Text("Forgot password", style: Styles.appBarStyle1),
           leading: IconButton(
             icon: IconStyles.blackCross,

@@ -42,6 +42,9 @@ dependencies:
   flutter_datetime_picker: ^1.5.1
   shared_preferences: ^2.1.1
   provider: ^6.0.5
+  walletconnect_dart: ^0.0.11
+  qr_code_scanner: ^1.0.1
+  pinput: ^2.2.21
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +72,9 @@ flutter:
     - assets/images/medical_record_icon.png
     - assets/images/clinic_1.png
     - assets/images/doctor_1.webp
+    - assets/images/bg_or1.jpg
+    - assets/images/bg_or2.jpg
+    - assets/images/clinic_sample.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

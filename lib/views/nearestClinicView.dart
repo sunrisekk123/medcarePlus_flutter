@@ -3,9 +3,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp/style/app_layout.dart';
 import 'package:fyp/style/app_style.dart';
 import 'package:gap/gap.dart';
+import 'package:fyp/models/clinic.dart';
 
-class NearestClinicView extends StatelessWidget {
-  const NearestClinicView({Key? key}) : super(key: key);
+class NearestClinicView extends StatefulWidget {
+  const NearestClinicView({Key? key, required this.clinicData}) : super(key: key);
+  final ClinicInfo clinicData;
+
+  @override
+  State<NearestClinicView> createState() => _NearestClinicViewState();
+}
+class _NearestClinicViewState extends State<NearestClinicView> {
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +39,10 @@ class NearestClinicView extends StatelessWidget {
                                 height: 100,
                                 width: size.width * 0.28,
                                 color: Color(0xffffffff),
-                                child: Image.asset('assets/images/clinic_1.png',
+                                child: Image.asset(widget.clinicData.imagePath.isNotEmpty? widget.clinicData.imagePath : 'assets/images/clinic_1.png',
                                     fit: BoxFit.fill)
-                                // Image(image: NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),),
-                                ),
+                              // Image(image: NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),),
+                            ),
                           )
                         ],
                       ),
@@ -46,7 +53,7 @@ class NearestClinicView extends StatelessWidget {
                           SizedBox(
                             width: size.width * 0.28,
                             child: Text(
-                              "Cheng Hing Chung Clinic",
+                              widget.clinicData.name,
                               style: Styles.boxTextStyle1,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -63,7 +70,7 @@ class NearestClinicView extends StatelessWidget {
                             size: 14,
                             color: Colors.red,
                           ),
-                          Text("Tsuen Wan", style: Styles.boxTextStyle2),
+                          Text(widget.clinicData.district, style: Styles.boxTextStyle2),
                         ],
                       )
                     ],
@@ -76,4 +83,5 @@ class NearestClinicView extends StatelessWidget {
       ],
     );
   }
+
 }

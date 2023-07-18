@@ -1,0 +1,506 @@
+[
+  {
+    "AREA": "HK",
+    "DISTRICT": "Kennedy Town"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Shek Tong Tsui"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Sai Ying Pun"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Sheung Wan"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Central"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Admiralty"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Mid-levels"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Peak"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Wan Chai"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Causeway Bay"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Happy Valley"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Tai Hang"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "So Kon Po"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Jardine's Lookout"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Tin Hau"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Braemar Hill"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "North Point"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Quarry Bay"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Sai Wan Ho"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Shau Kei Wan"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Chai Wan"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Siu Sai Wan"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Pok Fu Lam"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Aberdeen"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Ap Lei Chau"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Wong Chuk Hang"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Shouson Hill"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Repulse Bay"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Chung Hom Kok"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Stanley"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Tai Tam"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Shek O"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Tsim Sha Tsui"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Yau Ma Tei"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "West Kowloon Reclamation"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "King's Park"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Mong Kok"
+  },
+  {
+    "AREA": "HK",
+    "DISTRICT": "Tai Kok Tsui"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Mei Foo"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Lai Chi Kok"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Cheung Sha Wan"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Sham Shui Po"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Shek Kip Mei"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Yau Yat Tsuen"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Tai Wo Ping"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Stonecutters Island"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Hung Hom"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "To Kwa Wan"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Ma Tau Kok"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Ma Tau Wai"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Kai Tak"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Kowloon City"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Ho Man Tin"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Kowloon Tong"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Beacon Hill"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "San Po Kong"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Wong Tai Sin"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Tung Tau"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Wang Tau Hom"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Lok Fu"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Diamond Hill"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Tsz Wan Shan"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Ngau Chi Wan"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Ping Shek"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Kowloon Bay"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Ngau Tau Kok"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Jordan Valley"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Kwun Tong"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Sau Mau Ping"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Lam Tin"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Yau Tong"
+  },
+  {
+    "AREA": "KL",
+    "DISTRICT": "Lei Yue Mun"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Kwai Chung"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Tsing Yi"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Tsuen Wan"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Lei Muk Shue"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Ting Kau"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Sham Tseng"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Tsing Lung Tau"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Ma Wan"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Sunny Bay"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Tai Lam Chung"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "So Kwun Wat"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Tuen Mun"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Lam Tei"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Hung Shui Kiu"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Ha Tsuen"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Lau Fau Shan"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Tin Shui Wai"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Yuen Long"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "San Tin"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Lok Ma Chau"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Kam Tin"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Shek Kong"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Pat Heung"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Fanling"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Luen Wo Hui"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Sheung Shui"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Shek Wu Hui"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Sha Tau Kok"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Luk Keng"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Wu Kau Tang"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Tai Po Market"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Tai Po"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Tai Po Kau"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Tai Mei Tuk"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Shuen Wan"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Cheung Muk Tau"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Kei Ling Ha"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Tai Wai"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Sha Tin"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Fo Tan"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Ma Liu Shui"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Wu Kai Sha"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Ma On Shan"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Clear Water Bay"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Sai Kung"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Tai Mong Tsai"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Tseung Kwan O"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Hang Hau"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Tiu Keng Leng"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Ma Yau Tong"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Cheung Chau"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Peng Chau"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Lantau Island"
+  },
+  {
+    "AREA": "NT",
+    "DISTRICT": "Lamma Island"
+  }
+]
