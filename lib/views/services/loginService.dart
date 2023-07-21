@@ -50,6 +50,9 @@ class LoginService {
     try {
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       await sharedPreferences.setString('x-auth-token', '');
+      await sharedPreferences.setString('x-account', '');
+      await sharedPreferences.setString('user-address', '');
+      await sharedPreferences.setString('u-email', '');
       Navigator.pushNamedAndRemoveUntil(context, BasePage.routeName, (route) => false,);
     } catch (e) {
       showSnackBar(context, e.toString());

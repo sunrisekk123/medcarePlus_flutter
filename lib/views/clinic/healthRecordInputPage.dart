@@ -5,6 +5,9 @@ import 'package:fyp/views/services/healthRecordService.dart';
 import 'package:fyp/models/user.dart';
 import 'package:fyp/views/common/component.dart';
 
+import '../../style/app_style.dart';
+import '../basePage.dart';
+
 class HealthRecordInputArea extends StatefulWidget {
   static const String routeName = '/insert_health_record';
   const HealthRecordInputArea({Key? key, this.appointmentId, this.appointmentData, this.userAddress}) : super(key: key);
@@ -61,10 +64,12 @@ class _HealthRecordInputAreaState extends State<HealthRecordInputArea> {
     });
   }
 
-  void insertHealthRecords() {
-    healthRecordService.insertHealthRecord(
+  Future<bool> insertHealthRecords() {
+    return healthRecordService.insertHealthRecord(
         context: context,
-        appointmentId: widget.appointmentId,
+      appointmentId: widget.appointmentData?.appointmentId,
+        date: widget.appointmentData?.date,
+        time: widget.appointmentData?.time,
         clinicWalletAddress: widget.appointmentData?.clinicAddress,
         userWalletAddress: widget.appointmentData?.userAddress,
         doctor: widget.appointmentData?.doctor != null ? widget.appointmentData!.doctor: _doctor,
@@ -260,7 +265,11 @@ class _HealthRecordInputAreaState extends State<HealthRecordInputArea> {
                                           onPressed: (){
                                             if (_healthRecordFormKey.currentState!.validate()) {
                                               showSnackBar(context, "Processing Data");
-                                              insertHealthRecords();
+                                              insertHealthRecords().then((value) => {
+                                                if (value) {
+                                                  insertSuccessfullyPopupWindow(context)
+                                                }
+                                              });
                                             }
                                           },
                                           child: Text("Insert", style: TextStyle(color: Colors.white),)
@@ -277,6 +286,63 @@ class _HealthRecordInputAreaState extends State<HealthRecordInputArea> {
           ]))
         ])
     );
+  }
+
+  Future<void> insertSuccessfullyPopupWindow(BuildContext context) async {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Align(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AlertDialog(
+                      scrollable: true,
+                      content: Column(children: <Widget>[
+                        const Padding(
+                            padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                            child: CircleAvatar(
+                              radius: 50,
+                              backgroundColor: Color(0xFFF5F8FF),
+                              child: Icon(Icons.check_circle_rounded, size: 50.0),
+                            )),
+                        Padding(
+                            padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: Text(
+                                "Insert E-Health Record successfully",
+                                textAlign: TextAlign.center,
+                                style: Styles.headLineStyle6)),
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: Row(children: <Widget>[
+                              Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor: MaterialStateProperty.resolveWith((states) {
+                                            if (states.contains(MaterialState.disabled)) { return Colors.grey; }
+                                            if (states.contains(MaterialState.pressed)) { return const Color(0xff65ba79); }
+                                            return Color(0xff70cf86);
+                                          }),
+                                        ),
+                                        child: Text('OK', style: Styles.buttonTextStyle1),
+                                        onPressed: () {
+                                          Navigator.pushNamedAndRemoveUntil(context, BasePage.routeName, (route) => false,);
+                                        },
+                                      )
+                                    ],
+                                  )
+
+                              )
+                            ]))
+                      ]))
+                ],
+              ));
+        });
   }
 
 }

@@ -111,8 +111,7 @@ class _HealthRecordOverviewUserAreaState extends State<HealthRecordOverviewUserA
                                         ),
                                         subtitle: Text("View all your health records here"),
                                         onTap: (){
-                                          // _enterPinWindow(HealthRecordViewAllUserArea.routeName);
-                                          Navigator.pushNamed(context, HealthRecordViewAllUserArea.routeName);
+                                          _enterPinWindow(HealthRecordViewAllUserArea.routeName);
                                       }
                                     ),
                                   ],
@@ -156,8 +155,7 @@ class _HealthRecordOverviewUserAreaState extends State<HealthRecordOverviewUserA
                                         ),
                                         subtitle: Text("View all your trusted health provider"),
                                         onTap: (){
-                                          // _enterPinWindow(TrustedHealthProviderAllArea.routeName);
-                                          Navigator.pushNamed(context, TrustedHealthProviderAllArea.routeName);
+                                          _enterPinWindow(TrustedHealthProviderAllArea.routeName);
                                         }
                                     ),
                                   ],

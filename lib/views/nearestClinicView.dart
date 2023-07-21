@@ -39,7 +39,7 @@ class _NearestClinicViewState extends State<NearestClinicView> {
                                 height: 100,
                                 width: size.width * 0.28,
                                 color: Color(0xffffffff),
-                                child: Image.asset(widget.clinicData.imagePath.isNotEmpty? widget.clinicData.imagePath : 'assets/images/clinic_1.png',
+                                child: Image.asset(widget.clinicData.imagePath.isNotEmpty? widget.clinicData.imagePath : 'assets/images/clinic_sample.png',
                                     fit: BoxFit.fill)
                               // Image(image: NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),),
                             ),

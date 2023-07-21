@@ -10,6 +10,8 @@ import 'package:fyp/models/doctor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fyp/models/user.dart';
 
+import '../../models/doctorClinic.dart';
+
 class HomepageService {
 
   Future<List<ClinicInfo>> getHomepageData(
@@ -64,6 +66,55 @@ class HomepageService {
       showSnackBar(context, e.toString());
     }
     return clinicList;
+  }
+
+  Future<List<DoctorClinic>> getHomepageDoctorData(
+    BuildContext context,
+  ) async {
+    List<DoctorClinic> doctorList = [];
+    try {
+        http.Response homepageRes = await http.get(
+          Uri.parse('$uri/homepage/doctor'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          },
+        );
+
+        httpResponseHandle(
+          response: homepageRes,
+          context: context,
+          onSuccess: () {
+            for (int i = 0; i < jsonDecode(homepageRes.body)["data"].length; i++) {
+              final temp = jsonDecode(homepageRes.body)["data"][i];
+              doctorList.add(
+                  DoctorClinic(
+                      id: temp["_id"],
+                      clinicId: temp["CLINIC_ID"],
+                      name: temp["NAME"],
+                      services: jsonDecode(temp["SERVICES"]).cast<String>(),
+                      qualifications: jsonDecode(temp["QUALIFICATIONS"]).cast<String>(),
+                      imagePath: temp["IMAGE_PATH"],
+                    walletAddress: temp["CLINIC_INFO"][0]["WALLET_ADDRESS"],
+                    email: temp["CLINIC_INFO"][0]["EMAIL"],
+                    clinicName: temp["CLINIC_INFO"][0]["NAME"],
+                    password: temp["CLINIC_INFO"][0]["PASSWORD"],
+                    area: temp["CLINIC_INFO"][0]["AREA"],
+                    district: temp["CLINIC_INFO"][0]["DISTRICT"],
+                    address: temp["CLINIC_INFO"][0]["ADDRESS"],
+                    phoneNo: temp["CLINIC_INFO"][0]["PHONE_NO"],
+                    openingHrs: temp["CLINIC_INFO"][0]["OPENING_HRS"],
+                    active: temp["CLINIC_INFO"][0]["ACTIVE"],
+                    verified: temp["CLINIC_INFO"][0]["VERIFIED"]
+                )
+              );
+            }
+          },
+        );
+    } catch (e) {
+      print(e.toString());
+      showSnackBar(context, e.toString());
+    }
+    return doctorList;
   }
 
   Future<List<User>> getUserDataByEmail(

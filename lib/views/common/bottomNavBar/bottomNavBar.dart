@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fyp/style/app_style.dart';
 import 'package:fyp/views/basePage.dart';
 
-import '../../member/healthRecordOverview.dart';
+import 'package:fyp/views/member/healthRecordOverview.dart';
+import 'package:fyp/views/searchPage.dart';
 
 class BottomNavBar extends StatelessWidget {
 
@@ -44,6 +45,7 @@ class BottomNavBar extends StatelessWidget {
               tooltip: 'Search',
               icon: const Icon(Icons.search),
               onPressed: () {
+                Navigator.pushNamed(context, SearchAllView.routeName);
 
               },
             ),

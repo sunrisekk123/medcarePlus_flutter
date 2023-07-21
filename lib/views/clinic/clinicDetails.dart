@@ -97,7 +97,7 @@ class _ClinicDetailsAreaState extends State<ClinicDetailsArea> {
                               AspectRatio(
                                 aspectRatio: 1.0,
                                 child: Image.asset(
-                                  widget.clinic.imagePath.isNotEmpty ? widget.clinic.imagePath : 'assets/images/clinic_1.png',
+                                  widget.clinic.imagePath.isNotEmpty ? widget.clinic.imagePath : 'assets/images/clinic_sample.png',
                                   fit: BoxFit.fill,
                                   width: size.width * 0.35,
                                   height: 120,
@@ -159,7 +159,7 @@ class _ClinicDetailsAreaState extends State<ClinicDetailsArea> {
                                                 }
                                               }
                                             },
-                                            child: const Text('Make a appointment'),
+                                            child: const Text('Make an appointment'),
                                           )
                                         ],
                                       )

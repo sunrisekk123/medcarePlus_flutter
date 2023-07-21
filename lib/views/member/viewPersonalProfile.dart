@@ -13,13 +13,14 @@ import 'package:fyp/views/common/component.dart';
 
 class PersonalProfileArea extends StatefulWidget {
   static const String routeName = '/personal_profile_user';
-  const PersonalProfileArea({Key? key}) : super(key: key);
-
+  const PersonalProfileArea({Key? key, this.restorationId}) : super(key: key);
+  final String? restorationId;
   @override
   State<PersonalProfileArea> createState() => _PersonalProfileAreaState();
 }
 
-class _PersonalProfileAreaState extends State<PersonalProfileArea> {
+class _PersonalProfileAreaState extends State<PersonalProfileArea> with RestorationMixin{
+  static final GlobalKey<FormState> personalInfoFormKey = GlobalKey<FormState>();
   final HomepageService homeService = HomepageService();
   bool isExistPref = false;
   bool isExistWallet = false;
@@ -41,6 +42,9 @@ class _PersonalProfileAreaState extends State<PersonalProfileArea> {
   final _birthController = TextEditingController();
   String selectDate = "";
   final _pinController = TextEditingController();
+
+  @override
+  String? get restorationId => widget.restorationId;
 
   @override
   void initState(){
@@ -70,6 +74,20 @@ class _PersonalProfileAreaState extends State<PersonalProfileArea> {
         isExistWallet = true;
       });
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _oldPasswordController.dispose();
+    _passwordController.dispose();
+    _lnameController.dispose();
+    _fnameController.dispose();
+    _phoneController.dispose();
+    _hkidController.dispose();
+    _addressController.dispose();
+    _birthController.dispose();
+    _pinController.dispose();
   }
 
   void _toggleVisibility() {
@@ -109,7 +127,7 @@ class _PersonalProfileAreaState extends State<PersonalProfileArea> {
     if (newSelectedDate != null) {
       setState(() {
         _selectedDate.value = newSelectedDate;
-        selectDate = "${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}";
+        selectDate = "${_selectedDate.value.year.toString()}-${_selectedDate.value.month.toString().length==2? _selectedDate.value.month.toString(): "0"+_selectedDate.value.month.toString()}-${_selectedDate.value.day.toString().length==2? _selectedDate.value.day.toString(): "0"+_selectedDate.value.day.toString()}";
         _birthController.text = selectDate;
       });
     }
@@ -156,7 +174,6 @@ class _PersonalProfileAreaState extends State<PersonalProfileArea> {
   @override
   Widget build(BuildContext context) {
     final size = AppLayout.getSize(context);
-    var personalInfoFormKey = GlobalKey();
 
     return Scaffold(
       body: CustomScrollView(shrinkWrap: true, slivers: [
@@ -233,6 +250,8 @@ class _PersonalProfileAreaState extends State<PersonalProfileArea> {
                                 title: Text("Password"),
                                 subtitle: ((!_passwordEdit) ? Text("***"):
                                 TextFormField(
+                                  autocorrect: false,
+                                  obscureText: !_showPassword,
                                     controller: _passwordController,
                                     decoration: InputDecoration(
                                       isDense: true,
@@ -367,7 +386,7 @@ class _PersonalProfileAreaState extends State<PersonalProfileArea> {
                                     controller: _hkidController,
                                     decoration: const InputDecoration(
                                       border: UnderlineInputBorder(),
-                                      labelText: 'Enter new password',
+                                      labelText: 'Enter new HKID number',
                                     ),
                                   validator: (v) {
                                     return v!.trim().isNotEmpty ? null : "Cannot be empty";
@@ -394,12 +413,12 @@ class _PersonalProfileAreaState extends State<PersonalProfileArea> {
                             ),
                             ListTile(
                                 title: Text("Birth Date"),
-                                subtitle: (!_birthEdit) ? (_birthController.text.isNotEmpty ? Text('${_birthController.text}') : Text('${userList[0].birthDate}')) :
+                                subtitle: (!_birthEdit) ? (_birthController.text.isNotEmpty ? Text('${_birthController.text}') : Text('${userList[0].birthDate.substring(0,10)}')) :
                                 TextFormField(
                                     controller: _birthController,
                                     decoration: const InputDecoration(
                                       border: UnderlineInputBorder(),
-                                      labelText: 'Enter new password',
+                                      labelText: 'Enter new birth date',
                                   ),
                                   onTap: () {_restorableDatePickerRouteFuture.present();},
                                   validator: (v) {
@@ -418,6 +437,7 @@ class _PersonalProfileAreaState extends State<PersonalProfileArea> {
                                         showSnackBar(context, "Please enter birth date before saved");
                                       }
                                     }else{
+                                      _restorableDatePickerRouteFuture.present();
                                       setState(() {
                                         _birthEdit = !_birthEdit;
                                       });
@@ -475,13 +495,16 @@ class _PersonalProfileAreaState extends State<PersonalProfileArea> {
                                   Expanded(
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        if ((_passwordEdit && _passwordController.text.isNotEmpty)
-                                            && (_nameEdit && _lnameController.text.isNotEmpty && _fnameController.text.isNotEmpty)
-                                            && (_phoneEdit && _phoneController.text.isNotEmpty)
-                                            && (_addressEdit && _addressController.text.isNotEmpty)
-                                            && (_hkidEdit && _hkidController.text.isNotEmpty)
-                                            && (_birthEdit && _birthController.text.isNotEmpty)) {
+                                        if (((_passwordEdit && _passwordController.text.isNotEmpty)
+                                            || (_nameEdit && _lnameController.text.isNotEmpty && _fnameController.text.isNotEmpty)
+                                            || (_phoneEdit && _phoneController.text.isNotEmpty)
+                                            || (_addressEdit && _addressController.text.isNotEmpty)
+                                            || (_hkidEdit && _hkidController.text.isNotEmpty)
+                                            || (_birthEdit && _birthController.text.isNotEmpty))
+                                        ) {
                                           updatePersonalInfo();
+                                        }else{
+                                          showSnackBar(context, "Please enter valid old password");
                                         }
                                       },
                                       child: const Text('Submit', style: TextStyle(color: Colors.white)),
@@ -574,6 +597,13 @@ class _PersonalProfileAreaState extends State<PersonalProfileArea> {
                 ],
               ));
         });
+  }
+
+  @override
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+    registerForRestoration(_selectedDate, 'selected_date');
+    registerForRestoration(
+        _restorableDatePickerRouteFuture, 'date_picker_route_future');
   }
 
 }

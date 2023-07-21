@@ -5,6 +5,10 @@ import 'package:fyp/style/app_style.dart';
 import 'package:fyp/views/clinic/clinicBookingConfirmPage.dart';
 import 'package:fyp/views/common/component.dart';
 
+import 'package:fyp/models/appointment.dart';
+
+import 'package:fyp/views/services/appointmentService.dart';
+
 class ClinicBookingPageArea extends StatefulWidget {
   static const String routeName = '/clinic_booking';
   const ClinicBookingPageArea({Key? key, required this.clinic}) : super(key: key);
@@ -15,6 +19,7 @@ class ClinicBookingPageArea extends StatefulWidget {
 }
 
 class _ClinicBookingPageAreaState extends State<ClinicBookingPageArea> {
+  final AppointmentService appointmentService = AppointmentService();
   bool _dateTileExpanded = true;
   bool _timeTileExpanded = false;
   String _doctor = "";
@@ -34,11 +39,20 @@ class _ClinicBookingPageAreaState extends State<ClinicBookingPageArea> {
     "19",
     "20"
   ];
+  List<String> occupiedList = [];
 
   @override
   void initState(){
     super.initState();
     _doctor = widget.clinic.doctorInfo[0].name;
+    fetchAppointment(DateTime.now().toString().substring(0, 10));
+  }
+
+  fetchAppointment(String date) async{
+    List<String> appointmentAllList = await appointmentService.handleGetAppointmentByDateAndClinicAddress(context: context, date:date,clinicAddress:widget.clinic.walletAddress);
+    setState(() {
+      occupiedList = appointmentAllList;
+    });
   }
 
   @override
@@ -150,6 +164,7 @@ class _ClinicBookingPageAreaState extends State<ClinicBookingPageArea> {
                                             _dateTileExpanded = false;
                                             _timeTileExpanded = true;
                                             selectedDate = date;
+                                            fetchAppointment(selectedDate.toString().substring(0, 10));
                                           });
                                         },
                                         locale: LocaleType.en,
@@ -204,13 +219,17 @@ class _ClinicBookingPageAreaState extends State<ClinicBookingPageArea> {
                                                             borderRadius: BorderRadius.circular(15),
                                                             onTap: () => {
                                                               // if not disable, then setStatus
-                                                              setState(() {
-                                                                selectedTime = "${hoursList[a]}:${minsList[x]}";
-                                                                _timeTileExpanded = false;
-                                                              }),
+                                                              if(occupiedList.contains(hoursList[a]+":"+minsList[x])){
+                                                                showSnackBar(context, "This is occupied")
+                                                              }else{
+                                                                setState(() {
+                                                                  selectedTime = "${hoursList[a]}:${minsList[x]}";
+                                                                  _timeTileExpanded = false;
+                                                                }),
+                                                              }
                                                             },
                                                             child: Card(
-                                                              color: selectedTime == "${hoursList[a]}:${minsList[x]}" ? Color(0xFFe68453) : Color(0xffffffff),
+                                                              color: selectedTime == "${hoursList[a]}:${minsList[x]}" ? Color(0xFFe68453) : (occupiedList.contains("${hoursList[a]}:${minsList[x]}")?  Color(0xff000000) : Color(0xffffffff)),
                                                               // color: Color(0xffe3e3e3),
                                                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0),
                                                                 side: BorderSide(

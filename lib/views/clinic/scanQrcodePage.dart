@@ -8,6 +8,8 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:fyp/views/common/component.dart';
 import 'package:fyp/views/clinic/chooseInsertRecordOrViewRecordPage.dart';
 
+import '../../style/app_style.dart';
+
 
 class ScanQrCodeClinicArea extends StatefulWidget {
   static const String routeName = '/scan_qrcode_clinic';
@@ -49,7 +51,7 @@ class _ScanQrCodeClinicAreaState extends State<ScanQrCodeClinicArea> {
   }
 
   Future<bool> scanQrCodeWithAppointmentId(String code) async {
-    return await healthRecordService.checkScannedQrCodeWithId(context:context, id:widget.id, code: code);
+    return await healthRecordService.checkScannedQrCodeWithId(context:context, id:widget.id, code: code, userAddress: widget.appointmentData?.userAddress);
   }
 
   Future<bool> scanQrCodeWithoutAppointmentId(String code) async{
@@ -61,7 +63,7 @@ class _ScanQrCodeClinicAreaState extends State<ScanQrCodeClinicArea> {
     if(widget.id != null){
       scanQrCodeWithAppointmentId(code).then((value){
         if(value){
-          Navigator.pushNamedAndRemoveUntil(context, MyAppointmentClinicArea.routeName, (Route<dynamic> route) => false,arguments: {"userAddress": code.toString(), "appointmentId": widget.id, "appointmentData": widget.appointmentData});
+          Navigator.pop(context);
           Navigator.pushNamed(context, InsertRecordOrViewRecordPage.routeName, arguments: {"userAddress": code.toString(), "appointmentId": widget.id, "appointmentData": widget.appointmentData});
         }else{
           showSnackBar(context, "User do not exist");
@@ -71,8 +73,7 @@ class _ScanQrCodeClinicAreaState extends State<ScanQrCodeClinicArea> {
     }else{
       scanQrCodeWithoutAppointmentId(code).then((value){
         if(value){
-          Navigator.pushNamedAndRemoveUntil(context, MyAppointmentClinicArea.routeName, (Route<dynamic> route) => false, arguments: {"userAddress": code.toString() });
-          Navigator.pushNamed(context, InsertRecordOrViewRecordPage.routeName, arguments: {"userAddress": code.toString() });
+          insertSuccessfullyPopupWindow(context);
         }else{
           showSnackBar(context, "User do not exist");
           Navigator.pop(context);
@@ -162,5 +163,63 @@ class _ScanQrCodeClinicAreaState extends State<ScanQrCodeClinicArea> {
         result = scanData;
       });
     });
+  }
+
+  Future<void> insertSuccessfullyPopupWindow(BuildContext context) async {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Align(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AlertDialog(
+                      scrollable: true,
+                      content: Column(children: <Widget>[
+                        const Padding(
+                            padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                            child: CircleAvatar(
+                              radius: 50,
+                              backgroundColor: Color(0xFFF5F8FF),
+                              child: Icon(Icons.check_circle_rounded, size: 50.0),
+                            )),
+                        Padding(
+                            padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: Text(
+                                "Insert Trust Health Provider Successfully",
+                                textAlign: TextAlign.center,
+                                style: Styles.headLineStyle6)),
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: Row(children: <Widget>[
+                              Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor: MaterialStateProperty.resolveWith((states) {
+                                            if (states.contains(MaterialState.disabled)) { return Colors.grey; }
+                                            if (states.contains(MaterialState.pressed)) { return const Color(0xff65ba79); }
+                                            return Color(0xff70cf86);
+                                          }),
+                                        ),
+                                        child: Text('OK', style: Styles.buttonTextStyle1),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        },
+                                      )
+                                    ],
+                                  )
+
+                              )
+                            ]))
+                      ]))
+                ],
+              ));
+        });
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp/models/common.dart';
+import 'package:fyp/views/member/viewMyAppointmentDetails.dart';
 import 'package:fyp/views/services/appointmentService.dart';
 import 'package:gap/gap.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,6 +27,7 @@ class _MyAppointmentUserAreaState extends State<MyAppointmentUserArea> with Sing
   late TabController _tabController = TabController(length: 3, vsync: this);
   late ScrollController _scrollController = ScrollController();
   late bool fixedScroll = true;
+  int allowCancelDate = 10000000;
 
   @override
   void initState() {
@@ -48,16 +50,19 @@ class _MyAppointmentUserAreaState extends State<MyAppointmentUserArea> with Sing
         String date = appointmentAllList[i].date;
         String time = appointmentAllList[i].time;
         int thisRecord = int.parse(date.substring(0,4) + date.substring(5,7)+date.substring(8,10) + time.substring(0,2)+time.substring(3,5));
-        if(appointmentAllList[i].status != "C"){
-          if(thisRecord>nowDateRecord && appointmentAllList[i].status != "D"){
-            appointmentUpcomingList.add(appointmentAllList[i]);
-          }else{
-            appointmentCompletedList.add(appointmentAllList[i]);
-          }
-        }else{
+        if(appointmentAllList[i].status == "C"){
+          print(appointmentAllList[i].status);
           appointmentCancelList.add(appointmentAllList[i]);
+        }else if(appointmentAllList[i].status == "D"){
+          appointmentCompletedList.add(appointmentAllList[i]);
+        }else{
+          appointmentUpcomingList.add(appointmentAllList[i]);
         }
+
       }
+      String tempDateAllowed = DateTime.now().add(Duration(days: 2)).toString();
+      allowCancelDate = int.parse(tempDateAllowed.substring(0,4)+tempDateAllowed.substring(5,7)+tempDateAllowed.substring(8,10));
+
     });
   }
 
@@ -77,8 +82,8 @@ class _MyAppointmentUserAreaState extends State<MyAppointmentUserArea> with Sing
     }
   }
 
-  updateAppointmentStatus(String appointmentId) async {
-    appointmentService.cancelAppointmentByUserAddress(appointmentId: appointmentId, context: context);
+  updateAppointmentStatus(AppointmentInfo appointment) async {
+    appointmentService.cancelAppointmentByUserAddress(appointment: appointment ,context: context);
   }
 
   @override
@@ -175,7 +180,6 @@ class _MyAppointmentUserAreaState extends State<MyAppointmentUserArea> with Sing
               (appointmentCompletedList.isNotEmpty ? _buildTabCompleted(1)
                   : (appointmentCompletedList.length == 0 ? Center(child: Text("No data")) : const Loader() )),
               (appointmentCancelList.isNotEmpty ? _buildTabCancel(1)
-
                   : (appointmentCancelList.length == 0 ? Center(child: Text("No data")) : const Loader() ))
             ],
           )
@@ -190,7 +194,7 @@ class _MyAppointmentUserAreaState extends State<MyAppointmentUserArea> with Sing
       itemCount: lineCount,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
-          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
           child: Column(
             children: [
               for(int i=0;i<appointmentUpcomingList.length; i++)
@@ -251,7 +255,7 @@ class _MyAppointmentUserAreaState extends State<MyAppointmentUserArea> with Sing
                                     Expanded(
                                         child: Chip(
                                             avatar: const Icon(Icons.circle, color: Colors.green,),
-                                            label: Text('${appointmentUpcomingList[i].status == 'A'? 'Confirmed' : 'Booked'}'),
+                                            label: Text('${appointmentUpcomingList[i].status == 'A'? 'Confirmed' : appointmentUpcomingList[i].status == "D" ? "Completed" : "Canceled"}'),
                                             labelStyle: TextStyle(fontSize: 12),
                                             backgroundColor: Color(0xfff7decd)
                                         )
@@ -259,29 +263,49 @@ class _MyAppointmentUserAreaState extends State<MyAppointmentUserArea> with Sing
                                   ],
                                 )
                             ),
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: ElevatedButton(
-                                          child: const Text('Cancel', style: TextStyle(color: Colors.white)),
-                                          onPressed: () {
-                                            updateAppointmentStatus(appointmentCancelList[i].appointmentId);
-                                          }
-                                      ),
-                                    ),
-                                    Gap(10),
-                                    Expanded(
+                            if(int.parse(appointmentUpcomingList[i].date.substring(0,4)+appointmentUpcomingList[i].date.substring(5,7)+appointmentUpcomingList[i].date.substring(8,10)) > allowCancelDate)
+                              Padding(
+                                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
                                         child: ElevatedButton(
-                                            child: const Text('Details', style: TextStyle(color: Colors.white)),
-                                            onPressed: () {  }
-                                        )
-                                    )
-                                  ],
-                                )
-                            )
+                                            child: const Text('Cancel', style: TextStyle(color: Colors.white)),
+                                            onPressed: () {
+                                              updateAppointmentStatus(appointmentUpcomingList[i]);
+                                            }
+                                        ),
+                                      ),
+                                      Gap(10),
+                                      Expanded(
+                                          child: ElevatedButton(
+                                              child: const Text('Details', style: TextStyle(color: Colors.white)),
+                                              onPressed: () {
+                                                Navigator.pushNamed(context, MyAppointmentDetailsUserArea.routeName, arguments: {"appointmentData":appointmentUpcomingList[i]});
+                                              }
+                                          )
+                                      )
+                                    ],
+                                  )
+                              )
+                            else
+                              Padding(
+                                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                          child: ElevatedButton(
+                                              child: const Text('Details', style: TextStyle(color: Colors.white)),
+                                              onPressed: () {
+                                                Navigator.pushNamed(context, MyAppointmentDetailsUserArea.routeName, arguments: {"appointmentData":appointmentUpcomingList[i]});
+                                              }
+                                          )
+                                      )
+                                    ],
+                                  )
+                              )
                           ],
                         ),
                       ),
@@ -360,8 +384,8 @@ class _MyAppointmentUserAreaState extends State<MyAppointmentUserArea> with Sing
                                     ),
                                     Expanded(
                                         child: Chip(
-                                            avatar: const Icon(Icons.circle, color: Colors.green,),
-                                            label: Text('${appointmentCompletedList[i].status == 'A'? 'Confirmed' : 'Booked'}'),
+                                            avatar: const Icon(Icons.circle, color: Colors.blue,),
+                                            label: Text('${appointmentCompletedList[i].status == 'A'? 'Confirmed' : appointmentCompletedList[i].status == 'D'? "Completed" : "Canceled"}'),
                                             labelStyle: TextStyle(fontSize: 12),
                                             backgroundColor: Color(0xfff7decd)
                                         )
@@ -377,7 +401,9 @@ class _MyAppointmentUserAreaState extends State<MyAppointmentUserArea> with Sing
                                     Expanded(
                                         child: ElevatedButton(
                                             child: const Text('Details', style: TextStyle(color: Colors.white)),
-                                            onPressed: () {  }
+                                            onPressed: () {
+                                              Navigator.pushNamed(context, MyAppointmentDetailsUserArea.routeName, arguments: {"appointmentData":appointmentCompletedList[i]});
+                                            }
                                         )
                                     )
                                   ],
@@ -460,8 +486,8 @@ class _MyAppointmentUserAreaState extends State<MyAppointmentUserArea> with Sing
                                       ),
                                       Expanded(
                                           child: Chip(
-                                              avatar: const Icon(Icons.circle, color: Colors.green,),
-                                              label: Text('${appointmentCancelList[i].status == 'A'? 'Confirmed' : 'Booked'}'),
+                                              avatar: const Icon(Icons.circle, color: Colors.red,),
+                                              label: Text('${appointmentCancelList[i].status == 'A'? 'Confirmed' : appointmentCancelList[i].status == 'D'? "Completed" : "Canceled"}'),
                                               labelStyle: TextStyle(fontSize: 12),
                                               backgroundColor: Color(0xfff7decd)
                                           )
@@ -478,7 +504,7 @@ class _MyAppointmentUserAreaState extends State<MyAppointmentUserArea> with Sing
                                           child: ElevatedButton(
                                               child: const Text('Details', style: TextStyle(color: Colors.white)),
                                               onPressed: () {
-
+                                                Navigator.pushNamed(context, MyAppointmentDetailsUserArea.routeName, arguments: {"appointmentData":appointmentCancelList[i]});
                                               }
                                           )
                                       )

@@ -6,6 +6,7 @@ import 'package:fyp/style/app_layout.dart';
 import 'package:fyp/views/services/healthRecordService.dart';
 import 'package:fyp/style/app_style.dart';
 import 'package:fyp/models/healthRecord.dart';
+import 'package:fyp/views/common/loader.dart';
 
 class HealthRecordViewAllUserArea extends StatefulWidget {
   static const String routeName = '/health_record_all_user';
@@ -21,6 +22,8 @@ class _HealthRecordViewAllUserAreaState extends State<HealthRecordViewAllUserAre
   bool isExistPref = false;
   bool isExistWallet = false;
   List<HealthRecord> recordList = [];
+  List<HealthRecord> recordThisYrList = [];
+  List<HealthRecord> recordLastYrList = [];
   late TabController _tabController = TabController(length: 3, vsync: this);
   late ScrollController _scrollController = ScrollController();
   late bool fixedScroll = true;
@@ -51,11 +54,20 @@ class _HealthRecordViewAllUserAreaState extends State<HealthRecordViewAllUserAre
   }
 
   getHealthRecord() async {
+    int nowYear = int.parse(DateTime.now().toString().substring(0, 4));
+
     List<HealthRecord> temp = await healthRecordService.getHealthRecordDataUser(context);
       setState(() {
         recordList = temp;
+        for(int i=0; i<temp.length; i++){
+          int year = int.parse(temp[i].datetime.substring(0,4));
+          if(year == nowYear){
+            recordThisYrList.add(temp[i]);
+          }else if(year == (nowYear+1)){
+            recordLastYrList.add(temp[i]);
+          }
+        }
       });
- 
   }
 
   @override
@@ -89,7 +101,7 @@ class _HealthRecordViewAllUserAreaState extends State<HealthRecordViewAllUserAre
       itemBuilder: (BuildContext context, int index) {
         return
           Padding(
-          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
           child: Column(
             children: [
             for(int i=0;i<list.length; i++)
@@ -108,7 +120,7 @@ class _HealthRecordViewAllUserAreaState extends State<HealthRecordViewAllUserAre
                               tileColor: Styles.primaryColor,
                               contentPadding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                               leading: Icon(Icons.medical_services, color: Colors.white, size: 35,),
-                              title: Text(list[i].datetime, style: TextStyle(color: Colors.white)),
+                              title: Text("${list[i].datetime.substring(0,4)}-${list[i].datetime.substring(4,6)}-${list[i].datetime.substring(6,8)}", style: TextStyle(color: Colors.white)),
                               subtitle: Text(list[i].services, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 18)),
                             ),
                           ListTile(
@@ -118,7 +130,7 @@ class _HealthRecordViewAllUserAreaState extends State<HealthRecordViewAllUserAre
                                 crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Gap(5),
-                                Text("Scheduled at time${list[i].datetime}", style: TextStyle(fontWeight: FontWeight.w500)),
+                                Text("Inserted at time ${list[i].datetime.substring(8,10)}:${list[i].datetime.substring(10,12)}", style: TextStyle(fontWeight: FontWeight.w500)),
                                 Gap(3),
                                 Text("Dr. ${list[i].doctor}", style: TextStyle(fontWeight: FontWeight.w500))
                               ],
@@ -195,7 +207,11 @@ class _HealthRecordViewAllUserAreaState extends State<HealthRecordViewAllUserAre
         body: Container(
           child: TabBarView(
             controller: _tabController,
-            children: [_buildTabContext(1,recordList), _buildTabContext(1,recordList), _buildTabContext(1,recordList)],
+            children: [
+              recordThisYrList.isNotEmpty ? _buildTabContext(1,recordThisYrList) : (recordThisYrList.length == 0 ? Center(child: Text("No data")) : const Loader()) ,
+              recordLastYrList.isNotEmpty ? _buildTabContext(1,recordLastYrList) : (recordLastYrList.length == 0 ? Center(child: Text("No data")) : const Loader()) ,
+              recordList.isNotEmpty ? _buildTabContext(1,recordList) : (recordList.length == 0 ? Center(child: Text("No data")) : const Loader())
+            ],
           ),
         ),
       ),

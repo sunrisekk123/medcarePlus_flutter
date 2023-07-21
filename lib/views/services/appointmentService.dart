@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:fyp/constants/globalVariables.dart';
 import 'package:fyp/views/common/component.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fyp/views/member/viewMyAppointment.dart';
+import 'package:fyp/views/clinic/viewClinicAppointment.dart';
 
 class AppointmentService {
 
@@ -59,7 +61,7 @@ class AppointmentService {
 
   void cancelAppointmentByClinicAddress({
     required BuildContext context,
-    required String appointmentId,
+    required AppointmentInfo appointment,
   }) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -67,7 +69,7 @@ class AppointmentService {
 
         http.Response res = await http.post(
           Uri.parse('$uri/appointment/status'),
-          body: jsonEncode({'id': appointmentId, 'address': user, 'accountType':'C', 'status': "C"}),
+          body: jsonEncode({'id': appointment.appointmentId, 'clinicAddress': appointment.clinicAddress, 'date':appointment.date, 'time':appointment.time,  'address': user, 'accountType':'C', 'status': "C"}),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8'
           },
@@ -76,7 +78,39 @@ class AppointmentService {
           response: res,
           context: context,
           onSuccess: () {
+            Navigator.popAndPushNamed(context, MyAppointmentClinicArea.routeName);
             showSnackBar(context, "Cancel Successfully");
+          },
+        );
+
+    } catch (e) {
+      print(e.toString());
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  void completeAppointmentByClinicAddress({
+    required BuildContext context,
+    required AppointmentInfo appointment,
+  }) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var user = prefs.getString('user-address');
+
+        http.Response res = await http.post(
+          Uri.parse('$uri/appointment/status'),
+          body: jsonEncode({'id': appointment.appointmentId, 'clinicAddress': appointment.clinicAddress, 'date':appointment.date, 'time':appointment.time,  'address': appointment.userAddress, 'accountType':'C', 'status': "D"}),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          },
+        );
+        httpResponseHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            Navigator.pop(context);
+            Navigator.popAndPushNamed(context, MyAppointmentClinicArea.routeName);
+            showSnackBar(context, "Mark as completed successfully");
           },
         );
 
@@ -211,7 +245,7 @@ class AppointmentService {
 
   void cancelAppointmentByUserAddress({
     required BuildContext context,
-    required String appointmentId,
+    required AppointmentInfo appointment,
   }) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -219,7 +253,7 @@ class AppointmentService {
 
       http.Response res = await http.post(
         Uri.parse('$uri/appointment/status'),
-        body: jsonEncode({'id': appointmentId, 'address': user, 'accountType':'C', 'status': "C"}),
+        body: jsonEncode({'id': appointment.appointmentId,'clinicAddress': appointment.clinicAddress,'date': appointment.date, 'time': appointment.time,'address': user, 'accountType':'C', 'status': "C"}),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         },
@@ -229,6 +263,8 @@ class AppointmentService {
         context: context,
         onSuccess: () {
           showSnackBar(context, "Cancel Successfully");
+          Navigator.pop(context);
+          Navigator.pushNamed(context, MyAppointmentUserArea.routeName);
         },
       );
 
@@ -236,5 +272,36 @@ class AppointmentService {
       print(e.toString());
       showSnackBar(context, e.toString());
     }
+  }
+
+  Future<List<String>> handleGetAppointmentByDateAndClinicAddress({
+    required BuildContext context,
+    required String date,
+    required String clinicAddress,
+  }) async {
+    List<String> occupiedList = [];
+    try {
+      http.Response res = await http.get(
+        Uri.parse('$uri/appointment/booking/check_ava_date/$date/$clinicAddress'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+      );
+      httpResponseHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          for (int i = 0; i < jsonDecode(res.body)["data"].length; i++) {
+            final temp = jsonDecode(res.body)["data"][i];
+            occupiedList.add(temp);
+          }
+        },
+      );
+
+    } catch (e) {
+      print(e.toString());
+      showSnackBar(context, e.toString());
+    }
+    return occupiedList;
   }
 }

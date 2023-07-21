@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:fyp/models/healthRecord.dart';
 import 'package:fyp/views/services/healthRecordService.dart';
 
-class HealthRecordViewDetailsUserArea extends StatefulWidget {
-  static const String routeName = '/health_record_details_user';
-  const HealthRecordViewDetailsUserArea({Key? key, required this.healthRecordData}) : super(key: key);
+class ViewUserHealthRecordDetailsArea extends StatefulWidget {
+  static const String routeName = '/health_record_details_view_clinic';
+  const ViewUserHealthRecordDetailsArea({Key? key, required this.healthRecordData}) : super(key: key);
   final HealthRecord healthRecordData;
   @override
-  State<HealthRecordViewDetailsUserArea> createState() => _HealthRecordViewDetailsUserAreaState();
+  State<ViewUserHealthRecordDetailsArea> createState() => _ViewUserHealthRecordDetailsAreaState();
 }
 
-class _HealthRecordViewDetailsUserAreaState extends State<HealthRecordViewDetailsUserArea> {
+class _ViewUserHealthRecordDetailsAreaState extends State<ViewUserHealthRecordDetailsArea> {
   final HealthRecordService healthRecordService =  HealthRecordService();
 
   @override
@@ -52,7 +52,7 @@ class _HealthRecordViewDetailsUserAreaState extends State<HealthRecordViewDetail
                             ListTile(
                               title: Text("Date",
                                   style: TextStyle(fontWeight: FontWeight.w500)),
-                              subtitle: Text("\n${widget.healthRecordData.datetime}",
+                              subtitle: Text("\n${widget.healthRecordData.datetime.substring(0,4)}-${widget.healthRecordData.datetime.substring(4,6)}-${widget.healthRecordData.datetime.substring(6,8)}",
                                   style: TextStyle(height: 1.3)),
                               dense: true,
                               visualDensity: VisualDensity(vertical: -3),
@@ -79,8 +79,8 @@ class _HealthRecordViewDetailsUserAreaState extends State<HealthRecordViewDetail
                               title: Text("Time",
                                   style: TextStyle(fontWeight: FontWeight.w500)),
                               subtitle: Text(
-                                  "\n ${widget.healthRecordData.datetime}",
-                                      // "${widget.date.toString().substring(0, 10)}",
+                                  "\n ${widget.healthRecordData.datetime.substring(8,10)}:${widget.healthRecordData.datetime.substring(10,12)}",
+                                  // "${widget.date.toString().substring(0, 10)}",
                                   style: TextStyle(height: 1.3)),
                               dense: true,
                               visualDensity: VisualDensity(vertical: -3),
@@ -111,7 +111,7 @@ class _HealthRecordViewDetailsUserAreaState extends State<HealthRecordViewDetail
                                   style: TextStyle(fontWeight: FontWeight.w500)),
                               subtitle: Text(
                                   "\n ${widget.healthRecordData.treatment}",
-                                      // "${widget.date.toString().substring(0, 10)}",
+                                  // "${widget.date.toString().substring(0, 10)}",
                                   style: TextStyle(height: 1.3)),
                               dense: true,
                               visualDensity: VisualDensity(vertical: -3),
@@ -122,7 +122,7 @@ class _HealthRecordViewDetailsUserAreaState extends State<HealthRecordViewDetail
                                   style: TextStyle(fontWeight: FontWeight.w500)),
                               subtitle: Text(
                                   "\n ${widget.healthRecordData.medications}",
-                                      // "${widget.date.toString().substring(0, 10)}",
+                                  // "${widget.date.toString().substring(0, 10)}",
                                   style: TextStyle(height: 1.3)),
                               dense: true,
                               visualDensity: VisualDensity(vertical: -3),

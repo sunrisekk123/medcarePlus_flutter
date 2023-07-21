@@ -91,8 +91,8 @@ class _MyAppointmentClinicAreaState extends State<MyAppointmentClinicArea> with 
     }
   }
 
-  updateAppointmentStatus(appointmentId){
-    appointmentService.cancelAppointmentByClinicAddress(appointmentId: appointmentId, context: context);
+  updateAppointmentStatus(appointment){
+    appointmentService.cancelAppointmentByClinicAddress(appointment: appointment, context: context);
   }
 
   String getDayPlus2() {
@@ -308,7 +308,7 @@ class _MyAppointmentClinicAreaState extends State<MyAppointmentClinicArea> with 
                                           ),
                                           child: const Text('Cancel', style: TextStyle(color: Colors.white)),
                                           onPressed: () {
-                                            cancelAppointmentConfirmPopupWindow(context, list[i].appointmentId);
+                                            cancelAppointmentConfirmPopupWindow(context, list[i]);
                                           }
                                       ),
                                     ),
@@ -341,7 +341,7 @@ class _MyAppointmentClinicAreaState extends State<MyAppointmentClinicArea> with 
                                             ),
                                             child: const Text('Details', style: TextStyle(color: Colors.white)),
                                             onPressed: () {
-                                              Navigator.popAndPushNamed(context, MyAppointmentDetailsClinicArea.routeName,
+                                              Navigator.pushNamed(context, MyAppointmentDetailsClinicArea.routeName,
                                                   arguments: {"appointmentId": list[i]});
                                             }
                                         )
@@ -433,7 +433,7 @@ class _MyAppointmentClinicAreaState extends State<MyAppointmentClinicArea> with 
   }
 
 
-  Future<void> cancelAppointmentConfirmPopupWindow(BuildContext context, String appointmentId) async {
+  Future<void> cancelAppointmentConfirmPopupWindow(BuildContext context, AppointmentInfo appointment) async {
     return showDialog(
         context: context,
         barrierDismissible: false,
@@ -476,7 +476,7 @@ class _MyAppointmentClinicAreaState extends State<MyAppointmentClinicArea> with 
                                         ),
                                         child: Text('Yes', style: Styles.buttonTextStyle1),
                                         onPressed: () {
-                                          updateAppointmentStatus(appointmentId);
+                                          updateAppointmentStatus(appointment);
                                         },
                                       ),
                                       ElevatedButton(

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp/style/app_layout.dart';
 import 'package:fyp/style/app_style.dart';
 import 'package:gap/gap.dart';
+import 'package:fyp/models/doctorClinic.dart';
 
 class TopRatedDoctorsView extends StatelessWidget {
-  const TopRatedDoctorsView({Key? key}) : super(key: key);
+  const TopRatedDoctorsView({Key? key, required this.doctorData}) : super(key: key);
+final DoctorClinic doctorData;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class TopRatedDoctorsView extends StatelessWidget {
                                 width: size.width * 0.27,
                                 color: Color(0xffffffff),
                                 child: Image.asset(
-                                    'assets/images/doctor_1.webp',
+                                    doctorData.imagePath.isNotEmpty ? doctorData.imagePath :'assets/images/doctor_1.webp',
                                     fit: BoxFit.fill)
                                 // Image(image: NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),),
                                 ),
@@ -47,7 +48,7 @@ class TopRatedDoctorsView extends StatelessWidget {
                           SizedBox(
                             width: size.width * 0.27,
                             child: Text(
-                              "Dr. Cheng Hing Chung",
+                              "Dr. ${doctorData.name}",
                               style: Styles.boxTextStyle1,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -62,7 +63,7 @@ class TopRatedDoctorsView extends StatelessWidget {
                           SizedBox(
                             width: size.width * 0.27,
                             child: Text(
-                              "Cheng Hing Chung Clinic",
+                              "${doctorData.clinicName}",
                               style: Styles.boxTextStyle2,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,

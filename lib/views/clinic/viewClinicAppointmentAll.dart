@@ -262,7 +262,7 @@ class _MyAppointmentAllClinicAreaState extends State<MyAppointmentAllClinicArea>
                                             ),
                                             child: const Text('Details', style: TextStyle(color: Colors.white)),
                                             onPressed: () {
-                                              Navigator.popAndPushNamed(context, MyAppointmentDetailsClinicArea.routeName,
+                                              Navigator.pushNamed(context, MyAppointmentDetailsClinicArea.routeName,
                                                   arguments: {"appointmentId": list[i]});
                                             }
                                         )

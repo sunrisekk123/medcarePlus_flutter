@@ -5,13 +5,17 @@ import 'package:fyp/views/clinic/chooseInsertRecordOrViewRecordPage.dart';
 import 'package:fyp/views/clinic/clinicBookingConfirmPage.dart';
 import 'package:fyp/views/clinic/clinicBookingPage.dart';
 import 'package:fyp/views/clinic/clinicDetails.dart';
+import 'package:fyp/views/clinic/clinicInfoDoctorPage.dart';
 import 'package:fyp/views/clinic/clinicInfoPage.dart';
 import 'package:fyp/views/clinic/healthRecordInputPage.dart';
 import 'package:fyp/views/clinic/scanQrcodePage.dart';
 import 'package:fyp/views/clinic/viewClinicAppointment.dart';
 import 'package:fyp/views/clinic/viewClinicAppointmentAll.dart';
 import 'package:fyp/views/clinic/viewClinicAppointmentDetails.dart';
+import 'package:fyp/views/clinic/viewUserPastHealthRecordDetails.dart';
 import 'package:fyp/views/clinic/viewUserPastHealthRecords.dart';
+import 'package:fyp/views/clinicAll.dart';
+import 'package:fyp/views/doctorAll.dart';
 import 'package:fyp/views/forgotPassword.dart';
 import 'package:fyp/views/login.dart';
 import 'package:fyp/views/member/TrustedHealthProviderAll.dart';
@@ -19,11 +23,13 @@ import 'package:fyp/views/member/healthRecordOverview.dart';
 import 'package:fyp/views/member/showQRcode.dart';
 import 'package:fyp/views/member/viewHealthRecordDetails.dart';
 import 'package:fyp/views/member/viewMyAppointment.dart';
+import 'package:fyp/views/member/viewMyAppointmentDetails.dart';
 import 'package:fyp/views/member/viewPersonalProfile.dart';
 import 'package:fyp/views/member/viewHealthRecordAll.dart';
 import 'package:fyp/views/register.dart';
 import 'package:fyp/views/registerClinic.dart';
 import 'package:fyp/models/clinic.dart';
+import 'package:fyp/views/searchPage.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
@@ -32,6 +38,14 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const BasePage(),
+      );
+
+    case ViewUserHealthRecordDetailsArea.routeName:
+      final argument = routeSettings.arguments as Map;
+      var healthRecordData = argument["healthRecordData"];
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => ViewUserHealthRecordDetailsArea(healthRecordData:healthRecordData),
       );
 
     case ViewUserHealthRecordArea.routeName:
@@ -70,6 +84,14 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         builder: (_) => MyAppointmentDetailsClinicArea(data: appointmentData),
       );
 
+    case ClinicInfoDoctorArea.routeName:
+      final argument = routeSettings.arguments as Map;
+      var clinicData = argument["clinicData"] as ClinicInfo;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => ClinicInfoDoctorArea(clinicData: clinicData),
+      );
+
     case ClinicInfoArea.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
@@ -94,7 +116,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       var appointmentData = argument["appointmentData"];
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (_) => ScanQrCodeClinicArea(id: appointmentId, appointmentData: appointmentData??[]),
+        builder: (_) => ScanQrCodeClinicArea(id: appointmentId, appointmentData: appointmentData),
       );
 
       //Member
@@ -129,6 +151,14 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const PersonalProfileArea(),
+      );
+
+    case MyAppointmentDetailsUserArea.routeName:
+      final argument = routeSettings.arguments as Map;
+      var appointmentData = argument["appointmentData"];
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => MyAppointmentDetailsUserArea(appointmentData: appointmentData),
       );
 
     case MyAppointmentUserArea.routeName:
@@ -170,6 +200,28 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       );
 
       //common page
+    case SearchAllView.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => SearchAllView(),
+      );
+
+    case DoctorAllView.routeName:
+      final argument = routeSettings.arguments as Map;
+      var doctorList = argument["doctorList"];
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => DoctorAllView(doctorList: doctorList),
+      );
+
+    case ClinicAllView.routeName:
+      final argument = routeSettings.arguments as Map;
+      var clinicList = argument["clinicList"];
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => ClinicAllView(clinicList: clinicList),
+      );
+
     case RegisterPageDetails.routeName:
       return MaterialPageRoute(
         settings: routeSettings,

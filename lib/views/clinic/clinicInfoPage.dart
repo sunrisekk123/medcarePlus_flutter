@@ -1,19 +1,17 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fyp/models/clinic.dart';
 import 'package:fyp/style/app_layout.dart';
 import 'package:fyp/models/common.dart';
-import 'package:gap/gap.dart';
-import 'package:pinput/pinput.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:fyp/models/user.dart';
 import 'package:fyp/views/services/homepageService.dart';
 import 'package:fyp/views/common/loader.dart';
 import 'package:fyp/style/app_style.dart';
 import 'package:fyp/views/common/component.dart';
 import 'package:fyp/views/services/loginService.dart';
+
+import 'clinicInfoDoctorPage.dart';
 
 class ClinicInfoArea extends StatefulWidget {
   static const String routeName = '/personal_profile_clinic';
@@ -24,6 +22,7 @@ class ClinicInfoArea extends StatefulWidget {
 }
 
 class _ClinicInfoAreaState extends State<ClinicInfoArea> {
+  static final GlobalKey<FormState> personalInfoClinicFormKey = GlobalKey<FormState>();
   final HomepageService homeService = HomepageService();
   final LoginService loginService = LoginService();
   bool isExistPref = false;
@@ -124,6 +123,48 @@ class _ClinicInfoAreaState extends State<ClinicInfoArea> {
     }
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _oldPasswordController.dispose();
+    _passwordController.dispose();
+    _nameController.dispose();
+    _phoneController.dispose();
+    _addressController.dispose();
+    _area = "";
+    _district = "";
+    selectDate = "";
+    _monFromHr = "";
+    _monFromMin = "";
+    _monToHr = "";
+    _monToMin = "";
+    _tueFromHr = "";
+    _tueFromMin = "";
+    _tueToHr = "";
+    _tueToMin = "";
+    _wedFromHr = "";
+    _wedFromMin = "";
+    _wedToHr = "";
+    _wedToMin = "";
+    _thurFromHr = "";
+    _thurFromMin = "";
+    _thurToHr = "";
+    _thurToMin = "";
+    _friFromHr = "";
+    _friFromMin = "";
+    _friToHr = "";
+    _friToMin = "";
+    _satFromHr = "";
+    _satFromMin = "";
+    _satToHr = "";
+    _satToMin = "";
+    _sunFromHr = "";
+    _sunFromMin = "";
+    _sunToHr = "";
+    _sunToMin = "";
+    _openingHrsJson = "";
+  }
+
   void _toggleVisibility() {
     setState(() {
       _showPassword = !_showPassword;
@@ -175,20 +216,19 @@ class _ClinicInfoAreaState extends State<ClinicInfoArea> {
 
   getOpeningHrsText(){
     _openingHrsJson = jsonEncode([{
-      "mon": "$_monFromHr$_monFromMin-$_monToHr$_monToMin",
-      "tue": "$_tueFromHr$_tueFromMin-$_tueToHr$_tueToMin",
-      "wed": "$_wedFromHr$_wedFromMin-$_wedToHr$_wedToMin",
-      "thur": "$_thurFromHr$_thurFromMin-$_thurToHr$_thurToMin",
-      "fri": "$_friFromHr$_friFromMin-$_friToHr$_friToMin",
-      "sat": "$_satFromHr$_satFromMin-$_satToHr$_satToMin",
-      "sun": "$_sunFromHr$_sunFromMin-$_sunToHr$_sunToMin"
+      "mon": "${_monFromHr.length==0? "10": _monFromHr}${_monFromMin.length==0? "00": _monFromMin}-${_monToHr.length==0? "18": _monToHr}${_monToMin.length==0? "00": _monToMin}",
+      "tue": "${_tueFromHr.length==0? "10": _tueFromHr}${_tueFromMin.length==0? "00": _tueFromMin}-${_tueToHr.length==0? "18": _tueToHr}${_tueToMin.length==0? "00": _tueToMin}",
+      "wed": "${_wedFromHr.length==0? "10": _wedFromHr}${_wedFromMin.length==0? "00": _wedFromMin}-${_wedToHr.length==0? "18": _wedToHr}${_wedToMin.length==0? "00": _wedToMin}",
+      "thur": "${_thurFromHr.length==0? "10": _thurFromHr}${_thurFromMin.length==0? "00": _thurFromMin}-${_thurToHr.length==0? "18": _thurToHr}${_thurToMin.length==0? "00": _thurToMin}",
+      "fri": "${_friFromHr.length==0? "10": _friFromHr}${_friFromMin.length==0? "00": _friFromMin}-${_friToHr.length==0? "18": _friToHr}${_friToMin.length==0? "00": _friToMin}",
+      "sat": "${_satFromHr.length==0? "10": _satFromHr}${_satFromMin.length==0? "00": _satFromMin}-${_satToHr.length==0? "18": _satToHr}${_satToMin.length==0? "00": _satToMin}",
+      "sun": "${_sunFromHr.length==0? "10": _sunFromHr}${_sunFromMin.length==0? "00": _sunFromMin}-${_sunToHr.length==0? "18": _sunToHr}${_sunToMin.length==0? "00": _sunToMin}"
     }]);
   }
 
   @override
   Widget build(BuildContext context) {
     final size = AppLayout.getSize(context);
-    var personalInfoFormKey = GlobalKey();
 
     return Scaffold(
       body: CustomScrollView(shrinkWrap: true, slivers: [
@@ -232,8 +272,36 @@ class _ClinicInfoAreaState extends State<ClinicInfoArea> {
         !clinicList.isNotEmpty ?  SliverList(delegate: SliverChildListDelegate(<Widget>[const Loader()])) :
         SliverList(
             delegate: SliverChildListDelegate(<Widget>[
+            Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+            Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: OutlinedButton(
+                  child:Row(
+                    children: [
+                      const Text('Add doctors'),
+                      Icon(Icons.arrow_circle_right_rounded)
+                    ],
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    primary: Styles.primaryColor,
+                    textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                    side: const BorderSide(
+                      width: 5.0,
+                      color: Colors.transparent,
+                      style: BorderStyle.solid,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, ClinicInfoDoctorArea.routeName,arguments: {"clinicData": clinicList[0]});
+                  }
+              ),
+            ),
+          ],
+          ),
               Form(
-                  key: personalInfoFormKey,
+                  key: personalInfoClinicFormKey,
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: Container(
@@ -257,6 +325,8 @@ class _ClinicInfoAreaState extends State<ClinicInfoArea> {
                                 title: Text("Password"),
                                 subtitle: ((!_passwordEdit) ? Text("***"):
                                 TextFormField(
+                                  autocorrect: false,
+                                  obscureText: !_showPassword,
                                   controller: _passwordController,
                                   decoration: InputDecoration(
                                     isDense: true,
@@ -327,7 +397,7 @@ class _ClinicInfoAreaState extends State<ClinicInfoArea> {
                                           _nameEdit = !_nameEdit;
                                         });
                                       }else{
-                                        showSnackBar(context, "Please enter valid password");
+                                        showSnackBar(context, "Please enter valid name");
                                       }
                                     }else{
                                       setState(() {
@@ -527,7 +597,7 @@ class _ClinicInfoAreaState extends State<ClinicInfoArea> {
                                           ),
                                           Expanded(
                                               child: DropdownButtonFormField(
-                                                  value: "10",
+                                                  value: "00",
                                                   icon: const Icon(Icons.arrow_downward),
                                                   style: TextStyle(fontSize: 13, color: Colors.black),
                                                   elevation: 12,
@@ -618,7 +688,7 @@ class _ClinicInfoAreaState extends State<ClinicInfoArea> {
                                           ),
                                           Expanded(
                                               child: DropdownButtonFormField(
-                                                  value: "10",
+                                                  value: "00",
                                                   icon: const Icon(Icons.arrow_downward),
                                                   style: TextStyle(fontSize: 13, color: Colors.black),
                                                   elevation: 12,
@@ -709,7 +779,7 @@ class _ClinicInfoAreaState extends State<ClinicInfoArea> {
                                           ),
                                           Expanded(
                                               child: DropdownButtonFormField(
-                                                  value: "10",
+                                                  value: "00",
                                                   icon: const Icon(Icons.arrow_downward),
                                                   style: TextStyle(fontSize: 13, color: Colors.black),
                                                   elevation: 12,
@@ -800,7 +870,7 @@ class _ClinicInfoAreaState extends State<ClinicInfoArea> {
                                           ),
                                           Expanded(
                                               child: DropdownButtonFormField(
-                                                  value: "10",
+                                                  value: "00",
                                                   icon: const Icon(Icons.arrow_downward),
                                                   style: TextStyle(fontSize: 13, color: Colors.black),
                                                   elevation: 12,
@@ -891,7 +961,7 @@ class _ClinicInfoAreaState extends State<ClinicInfoArea> {
                                           ),
                                           Expanded(
                                               child: DropdownButtonFormField(
-                                                  value: "10",
+                                                  value: "00",
                                                   icon: const Icon(Icons.arrow_downward),
                                                   style: TextStyle(fontSize: 13, color: Colors.black),
                                                   elevation: 12,
@@ -982,7 +1052,7 @@ class _ClinicInfoAreaState extends State<ClinicInfoArea> {
                                           ),
                                           Expanded(
                                               child: DropdownButtonFormField(
-                                                  value: "10",
+                                                  value: "00",
                                                   icon: const Icon(Icons.arrow_downward),
                                                   style: TextStyle(fontSize: 13, color: Colors.black),
                                                   elevation: 12,
@@ -1073,7 +1143,7 @@ class _ClinicInfoAreaState extends State<ClinicInfoArea> {
                                           ),
                                           Expanded(
                                               child: DropdownButtonFormField(
-                                                  value: "10",
+                                                  value: "00",
                                                   icon: const Icon(Icons.arrow_downward),
                                                   style: TextStyle(fontSize: 13, color: Colors.black),
                                                   elevation: 12,
@@ -1143,12 +1213,13 @@ class _ClinicInfoAreaState extends State<ClinicInfoArea> {
                                   icon: (!_openingHrsEdit) ? Icon(Icons.create_outlined) : Icon(Icons.check_rounded),
                                   onPressed: () {
                                     if(_openingHrsEdit){
+                                      getOpeningHrsText();
                                       if(_openingHrsJson.isNotEmpty){
                                         setState(() {
                                           _openingHrsEdit = !_openingHrsEdit;
                                         });
                                       }else{
-                                        showSnackBar(context, "Please enter birth date before saved");
+                                        showSnackBar(context, "Please enter opening hour before saved");
                                       }
                                     }else{
                                       setState(() {
@@ -1177,15 +1248,18 @@ class _ClinicInfoAreaState extends State<ClinicInfoArea> {
                                     child: ElevatedButton(
                                       onPressed: () {
                                         getOpeningHrsText();
-                                        if ((_passwordEdit && _passwordController.text.isNotEmpty)
-                                            && (_nameEdit && _nameController.text.isNotEmpty )
-                                            && (_phoneEdit && _phoneController.text.isNotEmpty)
-                                            && (_addressEdit && _addressController.text.isNotEmpty)
-                                            && (_areaEdit && _area.isNotEmpty)
-                                            && (_districtEdit && _district.isNotEmpty)
-                                        && (_openingHrsEdit && _openingHrsJson.isNotEmpty)
+                                        if (((_passwordEdit && _passwordController.text.isNotEmpty)
+                                            || (_nameEdit && _nameController.text.isNotEmpty )
+                                            || (_phoneEdit && _phoneController.text.isNotEmpty)
+                                            || (_addressEdit && _addressController.text.isNotEmpty)
+                                            || (_areaEdit && _area.isNotEmpty)
+                                            || (_districtEdit && _district.isNotEmpty)
+                                        || (_openingHrsEdit && _openingHrsJson.isNotEmpty))
+                                        && (clinicList[0].password == _oldPasswordController.text)
                                         ) {
                                           updatePersonalInfo();
+                                        }else{
+                                          showSnackBar(context, "Please enter valid old password");
                                         }
                                       },
                                       child: const Text('Submit', style: TextStyle(color: Colors.white)),

@@ -1,5 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:fyp/models/doctor.dart';
+import 'package:fyp/views/searchPage.dart';
 import 'package:fyp/views/services/homepageService.dart';
 import 'package:fyp/views/services/loginService.dart';
 import 'package:gap/gap.dart';
@@ -12,8 +16,10 @@ import 'package:fyp/models/clinic.dart';
 import 'package:fyp/views/common/loader.dart';
 import 'package:fyp/views/member/healthRecordOverview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fyp/models/doctorClinic.dart';
+import 'package:fyp/views/clinicAll.dart';
+import 'package:fyp/views/doctorAll.dart';
 
-import 'clinic/scanQrcodePage.dart';
 
 class Homepage extends StatefulWidget {
   static const String routeName = '/home';
@@ -31,16 +37,17 @@ class HomepageDetailsState extends State<Homepage> {
   final LoginService loginService = LoginService();
 
   List<ClinicInfo> clinicList = [];
+  List<DoctorClinic> doctorList = [];
   String accountIs = "";
   bool isExistPref = false;
   bool isExistWallet = false;
 
   @override
   void initState(){
-    //TODO: check if login or not, if login: change drawer and show e-health record
     super.initState();
     getSharePref();
     fetchHomeData();
+    fetchHomeDoctorData();
   }
 
   @override
@@ -53,6 +60,15 @@ class HomepageDetailsState extends State<Homepage> {
     if (mounted) {
       setState(() {
         clinicList = list;
+      });
+    }
+  }
+
+  fetchHomeDoctorData() async {
+    List<DoctorClinic> list = await homeService.getHomepageDoctorData(context);
+    if (mounted) {
+      setState(() {
+        doctorList = list;
       });
     }
   }
@@ -73,6 +89,22 @@ class HomepageDetailsState extends State<Homepage> {
         isExistWallet = true;
       });
     }
+  }
+
+  ClinicInfo getClinicByDoctorId(String clinicId){
+    ClinicInfo temp = ClinicInfo(id: clinicList[0].id ,
+        walletAddress: clinicList[0].walletAddress ,
+        email: clinicList[0].email, name: clinicList[0].name, password: clinicList[0].password,
+        area: clinicList[0].area, district: clinicList[0].district,
+        address: clinicList[0].address, phoneNo: clinicList[0].phoneNo, openingHrs: clinicList[0].openingHrs,
+        active: clinicList[0].active, verified: clinicList[0].verified, imagePath: clinicList[0].imagePath,
+        token: "", doctorInfo: []);
+    for(int i=0; i<clinicList.length; i++){
+      if(clinicList[i].id == clinicId){
+        temp = clinicList[i];
+      }
+    }
+    return temp;
   }
 
   logout() async {
@@ -198,7 +230,10 @@ class HomepageDetailsState extends State<Homepage> {
                         ),
                         /* TODO: rotate map icon + current position */
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(context, ClinicAllView.routeName,
+                                arguments: {"clinicList": clinicList});
+                          },
                           child: Text(
                             "View all",
                             style: Styles.headLineStyle5,
@@ -240,9 +275,11 @@ class HomepageDetailsState extends State<Homepage> {
                           "Top Rated Doctors",
                           style: Styles.headLineStyle3,
                         ),
-                        /* TODO: rotate map icon + current position */
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(context, DoctorAllView.routeName,
+                                arguments: {"doctorList": doctorList});
+                          },
                           child: Text(
                             "View all",
                             style: Styles.headLineStyle5,
@@ -255,15 +292,17 @@ class HomepageDetailsState extends State<Homepage> {
                     physics: BouncingScrollPhysics(),
                     child: Row(
                       children: [
-                        Container(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: TopRatedDoctorsView(),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: TopRatedDoctorsView(),
-                        ),
-                        TopRatedDoctorsView(),
+                        for(int i=0; i<doctorList.length; i++)
+                          Container(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: InkWell(
+                              child:TopRatedDoctorsView(doctorData: doctorList[i]),
+                              onTap: () {
+                                Navigator.pushNamed(context, ClinicDetailsArea.routeName,
+                                    arguments: {"clinic": getClinicByDoctorId(doctorList[i].clinicId)});
+                              },
+                            ),
+                          ),
                       ],
                     ),
                   )
@@ -415,6 +454,7 @@ class HomepageHeaderPersistentDelegate extends SliverPersistentHeaderDelegate {
                           flex: 1,
                           fit: FlexFit.tight,
                           child: TextFormField(
+                              keyboardType: TextInputType.none,
                             cursorColor: Colors.grey,
                             // onFieldSubmitted: navigateToSearchScreen,
                             decoration: InputDecoration(
@@ -432,6 +472,9 @@ class HomepageHeaderPersistentDelegate extends SliverPersistentHeaderDelegate {
                                   width: 18,
                                   child: const Icon(Icons.search),
                                 )),
+                              onTap:(){
+                                Navigator.of(context).push(_toSearchPageRoute());
+                          }
                           ),
                         ),
                       ],
@@ -441,6 +484,24 @@ class HomepageHeaderPersistentDelegate extends SliverPersistentHeaderDelegate {
           ),
         ],
       ),
+    );
+  }
+
+  Route _toSearchPageRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const SearchAllView(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
     );
   }
 

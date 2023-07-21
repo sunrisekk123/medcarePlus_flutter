@@ -191,9 +191,9 @@ class HomepageClinicDetailsState extends State<HomepageClinic> {
                               title: Text("Scan QR Code",
                                   style: Styles.headLineStyle4,
                                   textAlign: TextAlign.center),
+                              subtitle: Text("Add as trusted provider", style: TextStyle(fontSize: 12,),textAlign: TextAlign.center),
                               onTap: () {
-                                Navigator.pushNamed(
-                                    context, ScanQrCodeClinicArea.routeName);
+                                Navigator.pushNamed(context, ScanQrCodeClinicArea.routeName, arguments: {});
                               },
                               trailing: Icon(Icons.arrow_right_rounded),
                             )),

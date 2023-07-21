@@ -73,7 +73,7 @@ class _RegisterPageDetailsState extends State<RegisterPageDetails>
     if (newSelectedDate != null) {
       setState(() {
         _selectedDate.value = newSelectedDate;
-        selectDate = "${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}";
+        selectDate = "${_selectedDate.value.year.toString()}-${_selectedDate.value.month.toString().length==2? _selectedDate.value.month.toString(): "0"+_selectedDate.value.month.toString()}-${_selectedDate.value.day.toString().length==2? _selectedDate.value.day.toString(): "0"+_selectedDate.value.day.toString()}";
         _birthDateController.text = selectDate;
       });
     }
@@ -345,8 +345,7 @@ class _RegisterPageDetailsState extends State<RegisterPageDetails>
                               controller: _passwordController,
                               decoration: InputDecoration(
                                 isDense: true,
-                                contentPadding:
-                                    const EdgeInsets.symmetric(vertical: 7),
+                                contentPadding: const EdgeInsets.symmetric(vertical: 7),
                                 labelText: 'Password *',
                                 labelStyle: TextStyle(
                                     fontSize: 14
